@@ -1,6 +1,9 @@
 package com.addressbook;
 
-import java.util.*;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class AddressBookMain {
     public static Map<String, ContactDetailOperation> addressBookDetail = new HashMap<>();
@@ -102,7 +105,7 @@ public class AddressBookMain {
         boolean isFlag = true;
         while (isFlag) {
             System.out.println("Address Book Menu!!");
-            System.out.println("1.Add contact. \n 2.Edit contact. \n 3.Delete Contact \n 4.Exit");//choices for operation
+            System.out.println("1.Add contact. \n 2.Edit contact. \n 3.Delete Contact \n 4. Read CSV file \n 5.Exit");//choices for operation
             System.out.print("enter choice:");
             int option = scan.nextInt();
             switch (option) {
@@ -123,6 +126,13 @@ public class AddressBookMain {
                     System.out.println("-----------------------------");
                     break;
                 case 4:
+                    try {
+                        contactDetail.readDataFromCSV();// calling readData from CSV  method
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 5:
                     isFlag = false;
                     System.out.println("Exit");
                     break;

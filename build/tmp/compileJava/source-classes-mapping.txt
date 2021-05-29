@@ -1,6 +1,6 @@
+com/addressbook/ContactPerson.java
+ com.addressbook.ContactPerson
 com/addressbook/AddressBookMain.java
  com.addressbook.AddressBookMain
 com/addressbook/ContactDetailOperation.java
  com.addressbook.ContactDetailOperation
-com/addressbook/ContactPerson.java
- com.addressbook.ContactPerson

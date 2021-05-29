@@ -1,8 +1,18 @@
 package com.addressbook;
 
+
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import com.opencsv.exceptions.CsvValidationException;
+
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -155,9 +165,14 @@ public class ContactDetailOperation {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        try {
+            writeDataToCSV();
+        } catch (IOException | CsvRequiredFieldEmptyException | CsvDataTypeMismatchException e) {
+            e.printStackTrace();
+        }
         return contact;
     }
+
 
     /**
      * Write data to text file which created statically
@@ -187,6 +202,45 @@ public class ContactDetailOperation {
                     .map(String::trim).forEach(System.out::println);
         } catch (IOException ignored) {
             System.out.println("ignored");
+        }
+    }
+
+    /**
+     * Write data into CSV file
+     * @throws IOException
+     * @throws CsvRequiredFieldEmptyException
+     * @throws CsvDataTypeMismatchException
+     */
+    private void writeDataToCSV()throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
+        try (Writer writer = Files.newBufferedWriter(Paths.get("D:\\Intellige\\AddressBook\\src\\main\\resources\\addressBook.csv"));) {
+            StatefulBeanToCsvBuilder<ContactPerson> builder = new StatefulBeanToCsvBuilder<>(writer);
+            StatefulBeanToCsv<ContactPerson> beanWriter = builder.build();
+            beanWriter.write(contact);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Read data from CSV file
+     * @throws IOException
+     */
+    public void readDataFromCSV() throws IOException {
+        try (Reader reader = Files.newBufferedReader(Paths.get("D:\\Intellige\\AddressBook\\src\\main\\resources\\addressBook.csv"));
+             CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();) {
+            String[] nextRecord;
+            while ((nextRecord = csvReader.readNext()) != null) {
+                System.out.println("First Name - " + nextRecord[0]);
+                System.out.println("Last Name - " + nextRecord[1]);
+                System.out.println("Address - " + nextRecord[2]);
+                System.out.println("City - " + nextRecord[3]);
+                System.out.println("State - " + nextRecord[4]);
+                System.out.println("Email - " + nextRecord[5]);
+                System.out.println("Phone - " + nextRecord[6]);
+                System.out.println("Zip - " + nextRecord[7]);
+            }
+        } catch (CsvValidationException e) {
+            e.printStackTrace();
         }
     }
 
@@ -393,6 +447,10 @@ public class ContactDetailOperation {
         }
     }
 
+    /**
+     * overridden method to print the records
+     * @return
+     */
     @Override
     public String toString() {
         return "city wise detail=>"+personByCity ;

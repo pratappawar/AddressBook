@@ -1,1 +1,2 @@
-ContactPerson{first_name='Pratap', last_name='Pawar', address='Kanadi', city='Latur', state='Maharashtra', zip=413511, phone_number=9834117765, email='pratappawar@gmail.com'}
+ContactPerson{first_name='Pratap', last_name='Pawar', address='Kanadi', city='Latur', state='Maharashtra', zip=413511, phone_number=9834116528, email='Pratappawar@gmail.com'}
+ContactPerson{first_name='Amar', last_name='Pawar', address='Rameshwar', city='Pune', state='Maharashtra', zip=410052, phone_number=7767885356, email='Amar@gmail.com'}
