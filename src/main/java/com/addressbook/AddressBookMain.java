@@ -18,7 +18,7 @@ public class AddressBookMain {
                                "4. Search Person by State \n 5.View person by State\n " +
                                "6.View person by city\n 7.Count people by City: " +
                                "\n8.Count people by state\n 9.Sort contact by Name: \n 10.sort contact by state:" +
-                                "\n11.sort contact by city: \n 12. sort contact by zip: \n13.Exit");
+                                "\n11.sort contact by city: \n 12. sort contact by zip: \n13 read data from file: \n14.Exit");
             System.out.println("Enter your choice");
             int choice = scan.nextInt();
             switch (choice) {
@@ -31,7 +31,7 @@ public class AddressBookMain {
                     } else {
                         addAddressbook(addressBookName);//storing address book in map
                         for (Map.Entry<String, ContactDetailOperation> entry : addressBookDetail.entrySet()) {
-                            System.out.println("Address Book Name:>" + entry.getKey()+ "==>" + "Contact Details:>" + entry.getValue().toString());
+                            System.out.println("Address Book Name:>" + entry.getKey()+ "==>" + "Contact Details:>" + entry.getValue());
                         }
                         break;
                     }
@@ -39,7 +39,7 @@ public class AddressBookMain {
                     for (Map.Entry<String, ContactDetailOperation> entry : addressBookDetail.entrySet()) {
                         ContactDetailOperation value = entry.getValue();
                         System.out.println(value);
-                        System.out.println("Address Book Name: " + entry.getKey());
+                        System.out.println("Addres s Book Name: " + entry.getKey());
                         value.checkDuplicate();
                         break;
                     }
@@ -58,7 +58,6 @@ public class AddressBookMain {
                     String state_Name = scan.next();
                     contactDetail.viewPersonByState(state_Name);
                     break;
-
                 case 6:
                     System.out.println("Enter Name of City: ");
                     String city_Name = scan.next();
@@ -80,15 +79,16 @@ public class AddressBookMain {
                 case 10:
                     contactDetail.sortContactByCity();
                     break;
-
                 case 11:
                     contactDetail.sortContactByState();
                     break;
-
                 case 12:
                     contactDetail.sortContactByZipCode();
                     break;
                 case 13:
+                    contactDetail.readData();
+                    break;
+                case 14:
                     System.out.println("Exit");
                     flag = false;
                     break;

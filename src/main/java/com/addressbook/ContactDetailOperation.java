@@ -1,5 +1,10 @@
 package com.addressbook;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -10,6 +15,7 @@ public class ContactDetailOperation {
     public static Scanner scan = new Scanner(System.in);
     public HashMap<String, ArrayList<ContactPerson>> personByState;
     public HashMap<String, ArrayList<ContactPerson>> personByCity;
+    public static String ADDRESSBOOK_FILE_NAME = "addressBook_file.txt";
 
     public ContactDetailOperation() {
         personByCity = new HashMap<String, ArrayList<ContactPerson>>();
@@ -79,12 +85,12 @@ public class ContactDetailOperation {
                         break;
                     case 6:
                         System.out.println("Enter zip : ");
-                        int newZip = scan.nextInt();
+                        String newZip = scan.next();
                         person.setZip(newZip);
                         break;
                     case 7:
                         System.out.println("Enter phone Number : ");
-                        long new_phoneNumber = scan.nextLong();
+                        String new_phoneNumber = scan.next();
                         person.setPhone_number(new_phoneNumber);
                         break;
                     case 8:
@@ -122,9 +128,9 @@ public class ContactDetailOperation {
         System.out.println("city");
         String city = scan.next();
         System.out.println("Zip");
-        int zip = scan.nextInt();
+        String zip = scan.next();
         System.out.println("PhoneNo");
-        long phone_number = scan.nextLong();
+        String phone_number = scan.next();
         System.out.println("Email");
         String email = scan.next();
 
@@ -143,7 +149,45 @@ public class ContactDetailOperation {
         }
         personByCity.get(city).add(person);
 
+        //Exception if exist then will be handled by catch block and method call added
+        try {
+            writeData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return contact;
+    }
+
+    /**
+     * Write data to text file which created statically
+     * Writes bytes to a file. The options parameter specifies how the file is created or opened.
+     * @throws IOException
+     */
+    public void writeData() throws IOException {
+        StringBuffer contactBuffer = new StringBuffer();
+        contact.forEach(person -> {
+            String contactDataString = person.toString().concat("\n");
+            System.out.println(contactDataString);
+            contactBuffer.append(contactDataString);
+        });
+        try {
+            Files.write(Paths.get(ADDRESSBOOK_FILE_NAME), contactBuffer.toString().getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *read data from file and display on console
+     */
+    public void readData() {
+        try {
+            Files.lines(new File(ADDRESSBOOK_FILE_NAME).toPath())
+                    .map(String::trim).forEach(System.out::println);
+        } catch (IOException ignored) {
+            System.out.println("ignored");
+        }
     }
 
     /**
@@ -347,6 +391,11 @@ public class ContactDetailOperation {
                 System.out.println("Last Name: "+contacts.getLast_name());
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "city wise detail=>"+personByCity ;
     }
 }
 

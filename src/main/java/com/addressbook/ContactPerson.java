@@ -1,5 +1,7 @@
 package com.addressbook;
 
+import java.text.MessageFormat;
+
 public class ContactPerson {
     /**
      * class properties
@@ -9,8 +11,8 @@ public class ContactPerson {
     public String address;
     public String city;
     public String state;
-    public int zip;
-    public long phone_number;
+    public String zip;
+    public String phone_number;
     public String email;
 
 
@@ -58,19 +60,19 @@ public class ContactPerson {
         this.state = state;
     }
 
-    public int getZip() {
+    public String getZip() {
         return zip;
     }
 
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 
-    public long getPhone_number() {
+    public String getPhone_number() {
         return phone_number;
     }
 
-    public void setPhone_number(long phone_number) {
+    public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
 
@@ -93,7 +95,7 @@ public class ContactPerson {
      * @param phone_number
      * @param email
      */
-    public ContactPerson(String first_name, String last_name, String address, String city, String state, int zip, long phone_number, String email) {
+    public ContactPerson(String first_name, String last_name, String address, String city, String state, String zip, String phone_number, String email) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.address = address;
@@ -110,16 +112,7 @@ public class ContactPerson {
      */
     @Override
     public String toString() {
-        return "ContactPerson{" +
-                "first_name='" + first_name + '\'' +
-                ", last_name='" + last_name + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", zip=" + zip +
-                ", phone_number=" + phone_number +
-                ", email='" + email + '\'' +
-                '}';
+        return MessageFormat.format("ContactPerson'{'first_name=''{0}'', last_name=''{1}'', address=''{2}'', city=''{3}'', state=''{4}'', zip={5}, phone_number={6}, email=''{7}'''}'", first_name, last_name, address, city, state, zip, phone_number, email);
     }
 }
 

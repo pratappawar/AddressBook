@@ -1,0 +1,1 @@
+ContactPerson{first_name='Pratap', last_name='Pawar', address='Kanadi', city='Latur', state='Maharashtra', zip=413511, phone_number=9834117765, email='pratappawar@gmail.com'}
