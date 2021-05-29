@@ -1,6 +1,7 @@
 package com.addressbook;
 
 
+import com.google.gson.Gson;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
@@ -9,11 +10,9 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.opencsv.exceptions.CsvValidationException;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -165,9 +164,18 @@ public class ContactDetailOperation {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //method call to Write data CSV surrounding try catch block
         try {
             writeDataToCSV();
         } catch (IOException | CsvRequiredFieldEmptyException | CsvDataTypeMismatchException e) {
+            e.printStackTrace();
+        }
+
+        //method call to Write data json surrounding try catch block
+        try {
+            writeDataInJSon();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return contact;
@@ -243,6 +251,45 @@ public class ContactDetailOperation {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Write data to json file
+     * @throws IOException
+     */
+    public void writeDataInJSon() throws IOException {
+        {
+            Path filePath = Paths.get("D:\\Intellige\\AddressBook\\src\\main\\resources\\addressBook.json");
+            Gson gson = new Gson();
+            String json = gson.toJson(contact);
+            FileWriter writer = new FileWriter(String.valueOf(filePath));
+            writer.write(json);
+            writer.close();
+        }
+    }
+
+    /**
+     * Read data from Json file in the format of key and value pair
+     * @throws IOException
+     */
+    public void readDataFromJson() throws IOException {
+        ArrayList<ContactPerson> contactList = null;
+        Path filePath = Paths.get("D:\\Intellige\\AddressBook\\src\\main\\resources\\addressBook.json");
+        try (Reader reader = Files.newBufferedReader(filePath);) {
+            Gson gson = new Gson();
+            contactList = new ArrayList<ContactPerson>(Arrays.asList(gson.fromJson(reader, ContactPerson[].class)));
+            for (ContactPerson contact : contactList) {
+                System.out.println("Firstname : " + contact.getFirst_name());
+                System.out.println("Lastname : " + contact.getLast_name());
+                System.out.println("Address : " + contact.getAddress());
+                System.out.println("City : " + contact.getCity());
+                System.out.println("State : " + contact.getState());
+                System.out.println("Zip : " + contact.getZip());
+                System.out.println("Phone number : " + contact.getPhone_number());
+                System.out.println("Email : " + contact.getEmail());
+            }
+        }
+    }
+
 
     /**
      * check duplicate contact in Address book if it is find will show the result
@@ -455,6 +502,7 @@ public class ContactDetailOperation {
     public String toString() {
         return "city wise detail=>"+personByCity ;
     }
+
 }
 
 

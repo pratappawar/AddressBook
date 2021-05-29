@@ -42,7 +42,7 @@ public class AddressBookMain {
                     for (Map.Entry<String, ContactDetailOperation> entry : addressBookDetail.entrySet()) {
                         ContactDetailOperation value = entry.getValue();
                         System.out.println(value);
-                        System.out.println("Addres s Book Name: " + entry.getKey());
+                        System.out.println("Address Book Name: " + entry.getKey());
                         value.checkDuplicate();
                         break;
                     }
@@ -105,7 +105,7 @@ public class AddressBookMain {
         boolean isFlag = true;
         while (isFlag) {
             System.out.println("Address Book Menu!!");
-            System.out.println("1.Add contact. \n 2.Edit contact. \n 3.Delete Contact \n 4. Read CSV file \n 5.Exit");//choices for operation
+            System.out.println("1.Add contact. \n 2.Edit contact. \n 3.Delete Contact \n 4. Read CSV file \n 5.Read data from json: \n 6.Exit");//choices for operation
             System.out.print("enter choice:");
             int option = scan.nextInt();
             switch (option) {
@@ -133,6 +133,13 @@ public class AddressBookMain {
                     }
                     break;
                 case 5:
+                    try {
+                        contactDetail.readDataFromJson();// calling readData from Json method
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 6:
                     isFlag = false;
                     System.out.println("Exit");
                     break;
